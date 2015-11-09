@@ -74,6 +74,7 @@ TReader g_reader[MAX_UARTS];
 
 
 // ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab
+#include <sys/ioctl.h>
 #include <net/if.h>
 int getactivedatasink(char *host);
 
@@ -293,7 +294,7 @@ int main (void) /*( int argc, const char* argv[] )*/
 		si_me.sin_port = htons (port);
 		si_me.sin_addr.s_addr = htonl (INADDR_ANY);
 
-		if (bind (g_socket, (sockaddr *) & si_me, sizeof (si_me)) == -1)
+		if (bind (g_socket, (struct sockaddr *) & si_me, sizeof (si_me)) == -1)
 		{
 			fprintf (stderr, "error: can't bind to listening socket\n");
 			return 3;

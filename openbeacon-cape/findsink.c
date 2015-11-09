@@ -2160,6 +2160,8 @@ callback(u_char *args,
    int vlan_id;
    int framing;
    struct stringnode *it;
+
+    (void)(args);
 /*
  *      Check that the packet is large enough to decode.
  */
@@ -2581,7 +2583,7 @@ int checkdatasink(const char *interface, const char *iface)
 	struct sockaddr_in serverAddr;
 	socklen_t addr_size;
 
-	uint32_t ip_addr;
+	uint32_t ip_addr = 0;
 	get_source_ip(interface, &ip_addr);
 	unsigned char ipbytes[4];
 	ipbytes[0] = ip_addr & 0xFF;
