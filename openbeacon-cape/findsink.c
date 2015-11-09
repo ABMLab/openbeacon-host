@@ -2730,7 +2730,7 @@ int getactivedatasink(char *host)
 
 
 /*}; / * namespace findsink* / */
-
+/*
 int main()
 {
     char sink[16];
@@ -2742,3 +2742,4 @@ int main()
 
     return 0;
 }
+*/

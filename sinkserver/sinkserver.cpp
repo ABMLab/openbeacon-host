@@ -208,7 +208,7 @@ void *connection_handler(void *socket_desc)
     pthread_mutex_unlock(&g_map_lock);
 
 //    if (quiet_flag==0)
-        printf("  %d | %d | %.2x:%.2x:%.2x:%.2x:%.2x:%.2x |  %d.%d.%d.%d\n" ,
+        printf("  %2d | %d | %.2x:%.2x:%.2x:%.2x:%.2x:%.2x |  %d.%d.%d.%d\n" ,
             id, ret,
             mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
             ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);

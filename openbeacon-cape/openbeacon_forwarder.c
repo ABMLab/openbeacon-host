@@ -74,6 +74,7 @@ TReader g_reader[MAX_UARTS];
 
 
 // ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab ABMLab
+#include <net/if.h>
 int getactivedatasink(char *host);
 
 static uint32_t g_reader_ip;
