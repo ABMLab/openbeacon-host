@@ -1,6 +1,6 @@
 //=========================================================================
 //
-// File:    sinkserver.c
+// File:    sinkserver.cpp
 // Created: 10-27-2015, 10:12 AM
 //
 // Author : Mehdi Najafi
@@ -68,7 +68,7 @@ class CReaderNetAdd
 
 // map <id,mac>
 static std::map<int,CReaderNetAdd*> g_readers_map;
-pthread_mutex_t g_map_lock;
+static pthread_mutex_t g_map_lock;
 
 int AddReader(unsigned char *_mac, unsigned char *_ip, int& id)
 {
@@ -77,8 +77,8 @@ int AddReader(unsigned char *_mac, unsigned char *_ip, int& id)
     std::map<int,CReaderNetAdd*>::iterator it;
     for(it = g_readers_map.begin(); it!=g_readers_map.end(); it++)
     {
-        if (p==*(it->second)) {id = it->first; return 1;}
-        if (memcmp(p.mac(),it->second->mac(), macadd_size)==0) {id = it->first; return 2;}
+        if (p==*(it->second)) {id = it->first; return 2;}
+        if (memcmp(p.mac(),it->second->mac(), macadd_size)==0) {id = it->first; return 1;}
     }
     id=g_readers_map.size()+1;
     g_readers_map[id] = new CReaderNetAdd(p);
@@ -138,9 +138,17 @@ int main(int argc , char *argv[])
     listen(socket_desc , 30);
 
     //Accept and incoming connection
-    if (quiet_flag==0) printf("Waiting for incoming connections...");
+    if (quiet_flag==0) printf("Waiting for incoming connections...\n");
     c = sizeof(struct sockaddr_in);
 	pthread_t thread_id;
+
+
+    //if (quiet_flag==0)
+    printf("\n S: 1-newly connected, 2-reconnected with new ip, 3-still connected.\n");
+    printf(" ----+---+-------------------+------------------\n");
+    printf("  id | S |        MAC        |         IP\n");
+    printf(" ----+---+-------------------+------------------\n");
+
 
     while( (client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c)) )
     {
@@ -199,31 +207,11 @@ void *connection_handler(void *socket_desc)
 
     pthread_mutex_unlock(&g_map_lock);
 
-    if (quiet_flag==0)
-    switch (ret)
-    {
-        case 0: // new reader
-            printf("\n[%4d] Reader %.2x:%.2x:%.2x:%.2x:%.2x:%.2x  at  %d.%d.%d.%d  connected." ,
-                id,
-                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
-                ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
-			break;
-        case 1: // existing reader with new ip
-            printf("\n[%4d] Reader %.2x:%.2x:%.2x:%.2x:%.2x:%.2x  at  %d.%d.%d.%d  with new ip connected." ,
-                id,
-                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
-                ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
-			break;
-        case 2: // existing reader
-            printf("\n[%4d] Reader %.2x:%.2x:%.2x:%.2x:%.2x:%.2x  at  %d.%d.%d.%d  reconnected." ,
-                id,
-                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
-                ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
-			break;
-        default:
-			break;
-    }
-
+//    if (quiet_flag==0)
+        printf("  %d | %d | %.2x:%.2x:%.2x:%.2x:%.2x:%.2x |  %d.%d.%d.%d\n" ,
+            id, ret,
+            mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+            ipbytes[0], ipbytes[1], ipbytes[2], ipbytes[3]);
         //fflush(stdout);
     return NULL;
 }

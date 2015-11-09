@@ -1,11 +1,11 @@
-/*************************************************************** 
+/***************************************************************
  *
  * OpenBeacon.org - OnAir protocol forwarder
  *
- * See the following website for already decoded Sputnik data: 
- * http://people.openpcd.org/meri/openbeacon/sputnik/data/24c3/ 
+ * See the following website for already decoded Sputnik data:
+ * http://people.openpcd.org/meri/openbeacon/sputnik/data/24c3/
  *
- * Copyright 2015 Milosch Meriac <meriac@bitmanufaktur.de> 
+ * Copyright 2015 Milosch Meriac <meriac@bitmanufaktur.de>
  *
  ***************************************************************/
 
@@ -242,7 +242,7 @@ int main (void) /*( int argc, const char* argv[] )*/
 	}
 */
 	// ABMLab
-	
+
 	/* reset variables */
 	g_duplicate_pos = 0;
 	g_reader_sequence = 0;
@@ -265,14 +265,13 @@ int main (void) /*( int argc, const char* argv[] )*/
 		g_reader[i].reader_mac = g_reader_mac;
 	// ABMLab
 
-	
+
 	// ABMLab
-	findsink::quiet_flag = 1;
 	// Try to locate the data sink or host
 	printf("L%d: before check!", __LINE__);
 	while(getactivedatasink(host) == 0) printf("L%d: I am here!", __LINE__);
 	printf("L%d: after check!", __LINE__);
-	
+
 	/* assign default port if needed */
 	/*port = ( argc < 3 ) ? PORT : atoi(argv[2]);*/
 	port = PORT;

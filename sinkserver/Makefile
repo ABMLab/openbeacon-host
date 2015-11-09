@@ -1,6 +1,6 @@
 CXX     :=g++
 TARGET  :=sinkserver
-SOURCES :=sinkserver.c
+SOURCES :=sinkserver.cpp
 
 all: $(TARGET) $(FILTERSS)
 
